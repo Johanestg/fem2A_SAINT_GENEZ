@@ -26,9 +26,9 @@ namespace FEM2A {
         return wxy_.size() / 3 ;
     }
 
-    vertex Quadrature::point( int i ) const
+    vertex Quadrature::point( int i ) const /* renvoie positions globales des vertices en fonction de x et de y*/
     {
-        assert( i < nb_points() ) ;
+        assert( i < nb_points() ) ; //arrête le programme si l'expression est fausse
         vertex v ;
         v.x = wxy_[3 * i + 1] ;
         v.y = wxy_[3 * i + 2] ;

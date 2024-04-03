@@ -51,9 +51,18 @@ namespace FEM2A {
             return true;
         }
 
-	bool test_quadrature()
+	bool test_quadrature(int ordre, bool bord)
 	{
-		std::cout << "coucou" << std::endl;
+		Quadrature q= q.get_quadrature(ordre, bord);/*On déclare un espace quadrature (Quadrature q) et on définie q en lui donnant des valeurs true quand on a un segment, false quand on a un triangle */
+		std::cout << "nombre de points: " << q.nb_points() << std::endl;
+		double somme=0;
+		for (int i=0; i< q.nb_points(); i++)
+		{
+			std::cout << "poid de chaque point: " << q.weight(i) << std::endl;
+			somme+=q.weight(i);
+		}
+		std::cout << "somme: " << somme << std::endl;
+		return true;
 	}
     }
 }

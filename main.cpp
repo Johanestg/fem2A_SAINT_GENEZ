@@ -30,8 +30,7 @@ using namespace FEM2A; /*pour utiliser les fct, les classes définit dans cet es
 /* Fonction pour lancer les tests*/
 void run_tests()
 {
-    std::cout << "je m'appelle johane" << std::endl;
-    /*const bool t_opennl = false;
+    const bool t_opennl = false;
     const bool t_lmesh = false;
     const bool t_io = false;
     const bool t_quadra = true; 
@@ -39,7 +38,7 @@ void run_tests()
     if( t_opennl ) test_opennl();
     if( t_lmesh ) Tests::test_load_mesh();
     if( t_io ) Tests::test_load_save_mesh();
-    if (t_quadra) Tests::test_quadrature();*/
+    if (t_quadra) Tests::test_quadrature(2,true);
 } /* comme les trois true, on lance les trois fonctions test */
 
 /* Fonction pour lancer la simulation*/
@@ -66,7 +65,6 @@ int main( int argc, const char * argv[] ) /* argc est le nombre d'argument et ar
         arguments.push_back( std::string(argv[i]) );
     }
     
-    std::cout << " argument" << arugments << std::endl;
 
     /* Show usage if asked or no arguments */
     if( arguments.size() == 0 || flag_is_used("-h", arguments)
