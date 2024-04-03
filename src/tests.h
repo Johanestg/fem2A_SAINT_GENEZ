@@ -19,7 +19,7 @@ namespace FEM2A {
             Mesh mesh;
             mesh.load("data/square.mesh");
 
-            std::cout << "Vertices <x> <y> <att>" << std::endl;
+            /*std::cout << "Vertices <x> <y> <att>" << std::endl;
             for( int v = 0; v < mesh.nb_vertices(); v++ ) {
                 std::cout << mesh.get_vertex(v).x << " " << mesh.get_vertex(v).y
                     << " " << mesh.get_vertex_attribute(v) << std::endl;
@@ -38,7 +38,7 @@ namespace FEM2A {
                     << mesh.get_triangle_vertex_index(tr, 1) << " "
                     << mesh.get_triangle_vertex_index(tr, 2) << " "
                     << mesh.get_triangle_attribute(tr) << std::endl;
-            }
+            }*/
 
             return true;
         }
