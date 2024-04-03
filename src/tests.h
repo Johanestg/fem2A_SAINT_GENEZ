@@ -64,5 +64,11 @@ namespace FEM2A {
 		std::cout << "somme: " << somme << std::endl;
 		return true;
 	}
+	
+	bool test_constructeur_elementmapping()
+	{
+		ElementMapping el;
+		
+	}
     }
 }

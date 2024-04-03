@@ -89,6 +89,8 @@ int main( int argc, const char * argv[] ) /* argc est le nombre d'argument et ar
         || flag_is_used("--run-simu", arguments) ) {
         run_simu();
     }
+    
+    ElementMapping l;
 
     return 0;
 }
