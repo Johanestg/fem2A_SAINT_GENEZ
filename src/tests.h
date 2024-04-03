@@ -51,5 +51,9 @@ namespace FEM2A {
             return true;
         }
 
+	bool test_quadrature()
+	{
+		std::cout << "coucou" << std::endl;
+	}
     }
 }

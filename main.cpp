@@ -24,19 +24,24 @@ bool flag_is_used(
     return false;
 }
 
-using namespace FEM2A;
+using namespace FEM2A; /*pour utiliser les fct, les classes définit dans cet espace.*/
 
+
+/* Fonction pour lancer les tests*/
 void run_tests()
 {
-    const bool t_opennl = true;
-    const bool t_lmesh = true;
-    const bool t_io = true;
+    const bool t_opennl = false;
+    const bool t_lmesh = false;
+    const bool t_io = false;
+    const bool t_quadra = true; 
 
-    if( t_opennl ) test_opennl();
+    /*if( t_opennl ) test_opennl();
     if( t_lmesh ) Tests::test_load_mesh();
-    if( t_io ) Tests::test_load_save_mesh();
-}
+    if( t_io ) Tests::test_load_save_mesh();*/
+    if (t_quadra) Tests::test_quadrature();
+} /* comme les trois true, on lance les trois fonctions test */
 
+/* Fonction pour lancer la simulation*/
 void run_simu()
 {
 
@@ -50,9 +55,12 @@ void run_simu()
     }
 }
 
-int main( int argc, const char * argv[] )
+
+/* !!!!!!!!! DÉBUT DU MAIN !!!!!!!!!*/
+
+int main( int argc, const char * argv[] ) /* argc est le nombre d'argument et argv est un 							pointeur sur le premier argument d'un tableau de char*/
 {
-    /* Command line parsing */
+    /* Command line parsing : argument est le vecteur de argv */
     for( int i = 1; i < argc; ++i ) {
         arguments.push_back( std::string(argv[i]) );
     }
