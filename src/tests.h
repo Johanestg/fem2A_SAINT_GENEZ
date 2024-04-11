@@ -69,8 +69,12 @@ namespace FEM2A {
 	{
 		Mesh mesh;
 		mesh.load("data/square.mesh");
+		// test pour un triangle
 		ElementMapping element_map_triangle(mesh, false, 4);
-		std:: cout << "vertices= " << element_map_triangle.get_vertices() << std::endl;
+		element_map_triangle.get_vertices();
+		//test pour segment 
+		ElementMapping element_map_edge(mesh, true, 4);
+		element_map_edge.get_vertices();
 		
 		
 		return true; 
