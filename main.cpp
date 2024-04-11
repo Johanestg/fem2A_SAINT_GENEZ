@@ -33,12 +33,14 @@ void run_tests()
     const bool t_opennl = false;
     const bool t_lmesh = false;
     const bool t_io = false;
-    const bool t_quadra = true; 
+    const bool t_quadra = false; 
+    const bool t_constructeur_element_mapping = true;
 
     if( t_opennl ) test_opennl();
     if( t_lmesh ) Tests::test_load_mesh();
     if( t_io ) Tests::test_load_save_mesh();
     if (t_quadra) Tests::test_quadrature(2,true);
+    if (t_constructeur_element_mapping) Tests::test_constructeur_elementmapping();
 } /* comme les trois true, on lance les trois fonctions test */
 
 /* Fonction pour lancer la simulation*/

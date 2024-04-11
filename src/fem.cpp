@@ -178,6 +178,21 @@ namespace FEM2A {
         // TODO
         return 0. ;
     }
+    
+    
+    /** johane **/
+    
+   int ElementMapping::get_vertices()
+   {
+   	std::cout <<"Coordonnées des sommets :" << std::endl;
+   	for (int j=0; j< vertices_.size() ; j++)
+   	{
+   		std::cout << "v" << j << " : " << vertices_[j].x << "	" << vertices_[j].y << std::endl;
+   	}
+   	
+   	return 0;
+   }
+   
 
     /****************************************************************/
     /* Implementation of ShapeFunctions */

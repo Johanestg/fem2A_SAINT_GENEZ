@@ -90,6 +90,12 @@ namespace FEM2A {
              * \return the determinant of the jacobian matrix
              */
             double jacobian( vertex x_r ) const ;
+            
+            /** johane
+             * Je rajoute une fonction get_vertices pour imprimer 
+             * les coordonnées des sommets pour le test du construteur
+            */
+            int get_vertices();
 
         private:
             bool border_ ;

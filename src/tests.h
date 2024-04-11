@@ -65,10 +65,16 @@ namespace FEM2A {
 		return true;
 	}
 	
-	/*bool test_constructeur_elementmapping()
+	bool test_constructeur_elementmapping()
 	{
-		ElementMapping el;
+		Mesh mesh;
+		mesh.load("data/square.mesh");
+		ElementMapping element_map_triangle(mesh, false, 4);
+		std:: cout << "vertices= " << element_map_triangle.get_vertices() << std::endl;
 		
-	}*/
+		
+		return true; 
+		
+	}
     }
 }
