@@ -136,31 +136,24 @@ namespace FEM2A {
         if ( border ) std::cout << "(border)";
         std::cout << '\n';
         // TODO
+        int nb_vertices=0;
         if (border) //edge
-        {
-        	int ind_global_0=get_edge_vertex_index(i, 0 ); //indice globale du premier pt
-        	int ind_global_1=get_edge_vertex_index(i, 1 ); //indice globale du deuxième pt
-        	
-        	vertex ver_0=get_edge_vertex(ind_global_0, 0);
-        	vertex ver_1=get_edge_vertex(ind_global_1, 1);
-        	
-        	vertices_.push_back(ver_0);
-        	vertices_.push_back(ver_1);
-       }
+        {	
+        	for (int nb_ver=0; nb_ver<2; nb_ver++)
+        	{
+        		vertex num_ver= M.get_edge_vertex(i, nb_ver);
+        		vertices_.push_back(num_ver);
+        	}
+        }
         else //triangle
         {
-        	int ind_global_0=get_edge_vertex_index(i, 0 ); //indice globale du premier pt
-        	int ind_global_1=get_edge_vertex_index(i, 1 ); //indice globale du deuxième pt
-        	int ind_global_2=get_edge_vertex_index(i, 2 ); //indice globale du deuxième pt
-        	
-        	vertex ver_0=get_edge_vertex(ind_global_0, 0);
-        	vertex ver_1=get_edge_vertex(ind_global_1, 1);
-        	vertex ver_2=get_edge_vertex(ind_global_2, 2);
-        	
-        	vertices_.push_back(ver_0);
-        	vertices_.push_back(ver_1);
-        	vertices_.push_back(ver_2);
-        }	
+        	for (int nb_ver=0; nb_ver<3; nb_ver++)
+        	{
+        		vertex num_ver= M.get_triangle_vertex(i, nb_ver);
+        		vertices_.push_back(num_ver);
+        	}
+        }
+
     }
 
     vertex ElementMapping::transform( vertex x_r ) const

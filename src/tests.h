@@ -65,10 +65,10 @@ namespace FEM2A {
 		return true;
 	}
 	
-	bool test_constructeur_elementmapping()
+	/*bool test_constructeur_elementmapping()
 	{
 		ElementMapping el;
 		
-	}
+	}*/
     }
 }
