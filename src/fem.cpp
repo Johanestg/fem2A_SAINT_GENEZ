@@ -176,6 +176,10 @@ namespace FEM2A {
         std::cout << "[ElementMapping] compute jacobian matrix" << '\n';
         // TODO
         DenseMatrix J ;
+        double deriv_x = -vertices_[0].x + vertices_[1].x;
+        J.add(0,0, deriv_x);
+        double deriv_y = -vertices_[0].y + vertices_[1].y;
+        J.add(1,0, deriv_x);
         return J ;
     }
 
