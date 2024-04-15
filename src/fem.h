@@ -99,7 +99,7 @@ namespace FEM2A {
 
         private:
             bool border_ ;
-            std::vector< vertex > vertices_ ;
+            std::vector< vertex > vertices_ ; // vecteur contenant les vertex des 2/3 points de référence
     } ;
 
     /**

@@ -204,7 +204,15 @@ namespace FEM2A {
         std::cout << "[ElementMapping] compute jacobian determinant" << '\n';
         // TODO
         DenseMatrix J = jacobian_matrix(x_r); // Création de la matrice jacobienne du vertex x_r
-        double det = J.det_2x2(); //Calcul du déterminant
+        double det = 0.;
+        if (border_)
+        {
+        	det = sqrt( J.get(0,0)*J.get(0,0) + J.get(1,0)*J.get(1,0) );
+        }
+        else
+        {
+        	det = J.det_2x2(); //Calcul du déterminant
+        }
         return det ;
     }
     
@@ -229,15 +237,24 @@ namespace FEM2A {
     ShapeFunctions::ShapeFunctions( int dim, int order )
         : dim_( dim ), order_( order )
     {
-        std::cout << "[ShapeFunctions] constructor in dimension " << dim << '\n';
-        // TODO
+        std::cout << "[ShapeFunctions] constructor in dimension " << dim  << '\n';
+        assert( (dim_ !=1) || (dim_ !=2) );
+        assert( order_!= 1 );
     }
 
     int ShapeFunctions::nb_functions() const
     {
         std::cout << "[ShapeFunctions] number of functions" << '\n';
-        // TODO
-        return 0 ;
+        int nb_func = 0;
+        if (dim_==1)
+        {
+        	nb_func = 2;
+        }
+        else
+        {
+        	nb_func = 3 ;
+        }
+        return nb_func ;
     }
 
     double ShapeFunctions::evaluate( int i, vertex x_r ) const

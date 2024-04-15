@@ -113,18 +113,26 @@ namespace FEM2A {
 		ref_v.x=0.2;
 		ref_v.y=0.4;
 		DenseMatrix jacob_matrix= element_map_triangle.jacobian_matrix(ref_v);
-		std::cout << "Matrice jacobienne du point:" << std::endl;
+		// Matrice jacobienne du point pour un triangle
 		jacob_matrix.print();
-		std::cout << "determinant = " << element_map_triangle.jacobian(ref_v) << std::endl;
+		// Déterminant de la matrice jacobienne
+		std::cout << element_map_triangle.jacobian(ref_v) << std::endl;
 		
 		// Test pour un edge
 		ElementMapping element_map_edge(mesh, true, 4);
 		DenseMatrix jacob_matrix2= element_map_edge.jacobian_matrix(ref_v);
-		std::cout << "Matrice jacobienne du point:" << std::endl;
+		// Matrice jacobienne du point pour un edge
 		jacob_matrix2.print();
+		// Déterminant de la matrice jacobienne
+		std::cout << element_map_edge.jacobian(ref_v) << std::endl;
 		
 		return true; 
 		
 	}
+	
+	/*bool test_constructeur_shapefunction(int dim, int order)
+	{
+		
+	}*/
     }
 }
