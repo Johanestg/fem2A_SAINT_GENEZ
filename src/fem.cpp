@@ -133,8 +133,7 @@ namespace FEM2A {
         : border_( border )
     {
         std::cout << "[ElementMapping] constructor for element " << i << " ";
-        if ( border ) std::cout << "(border)";
-        std::cout << '\n';
+        
         // TODO
         int nb_vertices=0;
         if (border) //edge
@@ -161,6 +160,8 @@ namespace FEM2A {
         std::cout << "[ElementMapping] transform reference to world space" << '\n';
         // TODO
         vertex r ;
+        index_x_r =
+        
         return r ;
     }
 
