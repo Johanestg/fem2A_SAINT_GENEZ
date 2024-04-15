@@ -176,15 +176,26 @@ namespace FEM2A {
         std::cout << "[ElementMapping] compute jacobian matrix" << '\n';
         // TODO
         DenseMatrix J ;
-        J.set_size(2,2);
-        double deriv_x_xi = -vertices_[0].x + vertices_[1].x;
-        J.add(0, 0, deriv_x_xi);
-        double deriv_y_xi = -vertices_[0].y + vertices_[1].y;
-        J.add(1, 0, deriv_y_xi);
-        double deriv_x_eta = -vertices_[0].x + vertices_[2].x;
-        J.add(0, 1, deriv_x_eta);
-        double deriv_y_eta = -vertices_[0].y + vertices_[2].y;
-        J.add(1, 1, deriv_y_eta);
+        if (border_)
+        {
+        	J.set_size(2,1);
+        	double deriv_x_xi = -vertices_[0].x + vertices_[1].x; /* dérivée de la coordonnée x de x_r 					 par rapport à xie*/
+        	J.add(0, 0, deriv_x_xi);
+        	double deriv_y_xi = -vertices_[0].y + vertices_[1].y; /* dérivée de la coordonnée y de x_r par rapport à xie*/
+        	J.add(1, 0, deriv_y_xi);
+        }
+        else
+        {
+        	J.set_size(2,2);
+        	double deriv_x_xi = -vertices_[0].x + vertices_[1].x; 
+        	J.add(0, 0, deriv_x_xi);
+        	double deriv_y_xi = -vertices_[0].y + vertices_[1].y;
+        	J.add(1, 0, deriv_y_xi);
+        	double deriv_x_eta = -vertices_[0].x + vertices_[2].x; /* dérivée de la coordonnée x de x_r par rapport à eta*/
+        	J.add(0, 1, deriv_x_eta);
+        	double deriv_y_eta = -vertices_[0].y + vertices_[2].y; /* dérivée de la coordonnée y de x_r par rapport à eta*/
+        	J.add(1, 1, deriv_y_eta);
+        }
         return J ;
     }
 
@@ -192,7 +203,9 @@ namespace FEM2A {
     {
         std::cout << "[ElementMapping] compute jacobian determinant" << '\n';
         // TODO
-        return 0. ;
+        DenseMatrix J = jacobian_matrix(x_r); // Création de la matrice jacobienne du vertex x_r
+        double det = J.det_2x2(); //Calcul du déterminant
+        return det ;
     }
     
     

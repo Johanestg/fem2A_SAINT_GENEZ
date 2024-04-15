@@ -84,13 +84,18 @@ namespace FEM2A {
 	{
 		Mesh mesh;
 		mesh.load("data/square.mesh");
-		// test pour un triangle
+		
+		// Test pour un triangle
 		ElementMapping element_map_triangle(mesh, false, 4);
 		vertex ref_v;
 		ref_v.x=0.2;
 		ref_v.y=0.4;
 		vertex global_v= element_map_triangle.transform(ref_v);
 		std::cout << "Mapping du point:" << std::endl << global_v.x << " " << global_v.y << std::endl;
+		// Test pour un edge
+		ElementMapping element_map_edge(mesh, true, 4);
+		vertex global_v2= element_map_edge.transform(ref_v);
+		std::cout << "Mapping du point:" << std::endl << global_v2.x << " " << global_v2.y << std::endl;
 	
 		return true; 
 		
@@ -98,9 +103,11 @@ namespace FEM2A {
 	
 	bool test_jacobian_matrix_elementmapping()
 	{
+		// Charge un mesh
 		Mesh mesh;
 		mesh.load("data/square.mesh");
-		// test pour un triangle
+		
+		// Test pour un triangle
 		ElementMapping element_map_triangle(mesh, false, 4);
 		vertex ref_v;
 		ref_v.x=0.2;
@@ -108,7 +115,14 @@ namespace FEM2A {
 		DenseMatrix jacob_matrix= element_map_triangle.jacobian_matrix(ref_v);
 		std::cout << "Matrice jacobienne du point:" << std::endl;
 		jacob_matrix.print();
-	
+		std::cout << "determinant = " << element_map_triangle.jacobian(ref_v) << std::endl;
+		
+		// Test pour un edge
+		ElementMapping element_map_edge(mesh, true, 4);
+		DenseMatrix jacob_matrix2= element_map_edge.jacobian_matrix(ref_v);
+		std::cout << "Matrice jacobienne du point:" << std::endl;
+		jacob_matrix2.print();
+		
 		return true; 
 		
 	}
