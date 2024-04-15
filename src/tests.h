@@ -95,5 +95,22 @@ namespace FEM2A {
 		return true; 
 		
 	}
+	
+	bool test_jacobian_matrix_elementmapping()
+	{
+		Mesh mesh;
+		mesh.load("data/square.mesh");
+		// test pour un triangle
+		ElementMapping element_map_triangle(mesh, false, 4);
+		vertex ref_v;
+		ref_v.x=0.2;
+		ref_v.y=0.4;
+		DenseMatrix jacob_matrix= element_map_triangle.jacobian_matrix(ref_v);
+		std::cout << "Matrice jacobienne du point:" << std::endl;
+		jacob_matrix.print();
+	
+		return true; 
+		
+	}
     }
 }
