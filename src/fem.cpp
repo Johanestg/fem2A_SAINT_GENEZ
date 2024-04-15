@@ -238,8 +238,8 @@ namespace FEM2A {
         : dim_( dim ), order_( order )
     {
         std::cout << "[ShapeFunctions] constructor in dimension " << dim  << '\n';
-        assert( (dim_ !=1) || (dim_ !=2) );
-        assert( order_!= 1 );
+        assert( (dim_ ==1) || (dim_ ==2) );
+        assert( order_== 1 );
     }
 
     int ShapeFunctions::nb_functions() const

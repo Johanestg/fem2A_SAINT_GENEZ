@@ -130,9 +130,20 @@ namespace FEM2A {
 		
 	}
 	
-	/*bool test_constructeur_shapefunction(int dim, int order)
+	bool test_constructeur_shapefunction(int dim, int order)
 	{
+		ShapeFunctions fonction_forme(dim, order );
 		
-	}*/
+		return true; 
+	}
+	
+	bool test_nbfunction_shapefunction(int dim, int order)
+	{
+		ShapeFunctions fonction_forme(dim, order );
+		int nb_func = fonction_forme.nb_functions();
+		std::cout << nb_func << std::endl;
+		
+		return true; 
+	}
     }
 }

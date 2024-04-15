@@ -36,7 +36,9 @@ void run_tests()
     const bool t_quadra = false; 
     const bool t_constructeur_element_mapping = false;
     const bool t_transform_element_mapping = false;
-    const bool t_jacobian_matrix_elementmapping = true;
+    const bool t_jacobian_matrix_elementmapping = false;
+    const bool t_constructeur_shapefunction = false;
+    const bool t_nbfunction_shapefunction = true;
 
     if( t_opennl ) test_opennl();
     if( t_lmesh ) Tests::test_load_mesh();
@@ -45,6 +47,8 @@ void run_tests()
     if (t_constructeur_element_mapping) Tests::test_constructeur_elementmapping();
     if (t_transform_element_mapping) Tests::test_transform_elementmapping();
     if (t_jacobian_matrix_elementmapping) Tests::test_jacobian_matrix_elementmapping();
+    if (t_constructeur_shapefunction) Tests::test_constructeur_shapefunction(2,1);
+    if (t_nbfunction_shapefunction) Tests::test_nbfunction_shapefunction(1,1);
 } /* comme les trois true, on lance les trois fonctions test */
 
 /* Fonction pour lancer la simulation*/
