@@ -240,14 +240,8 @@ namespace FEM2A {
     {
         std::cout << "[ShapeFunctions] number of functions" << '\n';
         int nb_func = 0;
-        if (dim_==1)
-        {
-        	nb_func = 2;
-        }
-        else
-        {
-        	nb_func = 3 ;
-        }
+        if (dim_==1) nb_func = 2;
+	nb_func = 3 ;
         return nb_func ;
     }
 
@@ -259,21 +253,17 @@ namespace FEM2A {
         double shape_func=0.;
         if (dim_==1)
         {
-        	if (i==0) shape_func = 1 - x_r.x;
-        	else shape_func = x_r.x;
-        	return shape_func;
+        	if (i==0) return 1 - x_r.x;
+        	else return x_r.x;
         }
-        else 
+        else
         {
-        	if (i==0) shape_func = 1 - x_r.x - x_r.y;
-        	else if (i==1) shape_func = x_r.x;
-        	else shape_func = x_r.y;
-        	return shape_func; 
-        	
+		if (i==0) return 1 - x_r.x - x_r.y;
+        	else if (i==1) return x_r.x;
+        	else return x_r.y; 
         }
-        
         return 0. ; // should not be reached
-        //return shape_func;
+
     }
 
     vec2 ShapeFunctions::evaluate_grad( int i, vertex x_r ) const
@@ -320,14 +310,24 @@ namespace FEM2A {
     /* Implementation of Finite Element functions */
     /****************************************************************/
     void assemble_elementary_matrix(
-        const ElementMapping& elt_mapping,
-        const ShapeFunctions& reference_functions,
-        const Quadrature& quadrature,
-        double (*coefficient)(vertex),
-        DenseMatrix& Ke )
+        const ElementMapping& elt_mapping, // un élément : segment ou triangle
+        const ShapeFunctions& reference_functions, /* les shape fonctions associées aux vertex de l'élément */ 
+        const Quadrature& quadrature, // fonction de quadrature
+        double (*coefficient)(vertex), /* coefficient est un pointeur de fonction attendant un paramètre vertex et renvoyant un double*/
+        DenseMatrix& Ke ) // Ke est une référence d'une matrice
     {
         std::cout << "compute elementary matrix" << '\n';
         // TODO
+        
+       /double sum = 0.;
+        
+        for (int j =0 ; j < quadrature.nb_points() ; j++)
+        {
+        	wq = quadrature.weight(j);
+        	grad_shape_func = reference_functions.evaluate(
+        	
+        }
+        
     }
 
     void local_to_global_matrix(

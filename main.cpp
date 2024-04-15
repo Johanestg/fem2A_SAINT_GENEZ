@@ -52,7 +52,7 @@ void run_tests()
     if (t_constructeur_shapefunction) Tests::test_constructeur_shapefunction(2,1);
     if (t_nbfunction_shapefunction) Tests::test_nbfunction_shapefunction(1,1);
     if (t_evaluate_shapefunction) Tests::test_evaluate_shapefunction(1, 1, 0);
-    if (t_evaluategrad_shapefunction) Tests::test_evaluategrad_shapefunction(2, 1, 2);
+    if (t_evaluategrad_shapefunction) Tests::test_evaluategrad_shapefunction(1, 1, 0);
 } /* comme les trois true, on lance les trois fonctions test */
 
 /* Fonction pour lancer la simulation*/
