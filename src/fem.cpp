@@ -140,16 +140,14 @@ namespace FEM2A {
         {	
         	for (int nb_ver=0; nb_ver<2; nb_ver++)
         	{
-        		vertex num_ver= M.get_edge_vertex(i, nb_ver);
-        		vertices_.push_back(num_ver);
+        		vertices_.push_back(M.get_edge_vertex(i, nb_ver));
         	}
         }
         else //triangle
         {
         	for (int nb_ver=0; nb_ver<3; nb_ver++)
         	{
-        		vertex num_ver= M.get_triangle_vertex(i, nb_ver);
-        		vertices_.push_back(num_ver);
+        		vertices_.push_back(M.get_triangle_vertex(i, nb_ver));
         	}
         }
 
@@ -160,8 +158,16 @@ namespace FEM2A {
         std::cout << "[ElementMapping] transform reference to world space" << '\n';
         // TODO
         vertex r ;
-        index_x_r =
-        
+        if (border_) 
+        {
+	        r.x = (1 - x_r.x )*vertices_[0].x + x_r.x*vertices_[1].x;
+	        r.y = (1 - x_r.x )*vertices_[0].y + x_r.x*vertices_[1].y;
+        }
+        else
+        {
+        	r.x = (1 - x_r.x - x_r.y)*vertices_[0].x + x_r.x*vertices_[1].x + x_r.y*vertices_[2].x;
+	        r.y = (1 - x_r.x - x_r.y)*vertices_[0].y + x_r.x*vertices_[1].y + x_r.y*vertices_[2].y;
+        }
         return r ;
     }
 

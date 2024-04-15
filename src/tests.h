@@ -76,7 +76,22 @@ namespace FEM2A {
 		ElementMapping element_map_edge(mesh, true, 4);
 		element_map_edge.get_vertices();
 		
+		return true; 
 		
+	}
+	
+	bool test_transform_elementmapping()
+	{
+		Mesh mesh;
+		mesh.load("data/square.mesh");
+		// test pour un triangle
+		ElementMapping element_map_triangle(mesh, false, 4);
+		vertex ref_v;
+		ref_v.x=0.2;
+		ref_v.y=0.4;
+		vertex global_v= element_map_triangle.transform(ref_v);
+		std::cout << "Mapping du point:" << std::endl << global_v.x << " " << global_v.y << std::endl;
+	
 		return true; 
 		
 	}
