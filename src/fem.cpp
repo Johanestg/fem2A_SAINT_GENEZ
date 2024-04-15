@@ -178,23 +178,17 @@ namespace FEM2A {
         DenseMatrix J ;
         if (border_)
         {
-        	J.set_size(2,1);
-        	double deriv_x_xi = -vertices_[0].x + vertices_[1].x; /* dérivée de la coordonnée x de x_r 					 par rapport à xie*/
-        	J.add(0, 0, deriv_x_xi);
-        	double deriv_y_xi = -vertices_[0].y + vertices_[1].y; /* dérivée de la coordonnée y de x_r par rapport à xie*/
-        	J.add(1, 0, deriv_y_xi);
+        	J.set_size(2,1); 
+        	J.set(0, 0, -vertices_[0].x + vertices_[1].x);/* dérivée de la coordonnée x de x_r 					 par rapport à xie*/
+        	J.set(1, 0, -vertices_[0].y + vertices_[1].y);/* dérivée de la coordonnée y de x_r par rapport à xie*/
         }
         else
         {
-        	J.set_size(2,2);
-        	double deriv_x_xi = -vertices_[0].x + vertices_[1].x; 
-        	J.add(0, 0, deriv_x_xi);
-        	double deriv_y_xi = -vertices_[0].y + vertices_[1].y;
-        	J.add(1, 0, deriv_y_xi);
-        	double deriv_x_eta = -vertices_[0].x + vertices_[2].x; /* dérivée de la coordonnée x de x_r par rapport à eta*/
-        	J.add(0, 1, deriv_x_eta);
-        	double deriv_y_eta = -vertices_[0].y + vertices_[2].y; /* dérivée de la coordonnée y de x_r par rapport à eta*/
-        	J.add(1, 1, deriv_y_eta);
+        	J.set_size(2,2); 
+        	J.set(0, 0, -vertices_[0].x + vertices_[1].x);
+        	J.set(1, 0, -vertices_[0].y + vertices_[1].y);
+        	J.set(0, 1, -vertices_[0].x + vertices_[2].x);/* dérivée de la coordonnée x de x_r par rapport à eta*/
+        	J.set(1, 1, -vertices_[0].y + vertices_[2].y);/* dérivée de la coordonnée y de x_r par rapport à eta*/
         }
         return J ;
     }
@@ -261,7 +255,25 @@ namespace FEM2A {
     {
         std::cout << "[ShapeFunctions] evaluate shape function " << i << '\n';
         // TODO
+        
+        double shape_func=0.;
+        if (dim_==1)
+        {
+        	if (i==0) shape_func = 1 - x_r.x;
+        	else shape_func = x_r.x;
+        	return shape_func;
+        }
+        else 
+        {
+        	if (i==0) shape_func = 1 - x_r.x - x_r.y;
+        	else if (i==1) shape_func = x_r.x;
+        	else shape_func = x_r.y;
+        	return shape_func; 
+        	
+        }
+        
         return 0. ; // should not be reached
+        //return shape_func;
     }
 
     vec2 ShapeFunctions::evaluate_grad( int i, vertex x_r ) const
@@ -269,6 +281,38 @@ namespace FEM2A {
         std::cout << "[ShapeFunctions] evaluate gradient shape function " << i << '\n';
         // TODO
         vec2 g ;
+        
+        if (dim_==1)
+        {
+        	if ( i == 0)
+        	{
+        		g.x = -1;
+        	}
+        	else 
+        	{
+        		g.x = 1;
+        	}
+        	g.y = 0;	
+        }
+        else 
+        {
+        	if ( i == 0)
+        	{
+        		g.x = -1;
+        		g.y = -1;
+        	}
+        	else if ( i == 1 )
+        	{
+        		g.x = 1;
+        		g.y = 0;
+        	}
+        	else 
+        	{
+        		g.x = 0;
+        		g.y = 1;
+        	}	
+        }
+        
         return g ;
     }
 

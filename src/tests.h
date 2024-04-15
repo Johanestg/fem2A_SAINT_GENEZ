@@ -145,5 +145,31 @@ namespace FEM2A {
 		
 		return true; 
 	}
+	
+	bool test_evaluate_shapefunction(int dim, int order, int i)
+	{
+		ShapeFunctions fonction_forme(dim, order );
+		vertex ref_v;
+		ref_v.x=0.2;
+		ref_v.y=0.4;
+		
+		double eval_shape_func = fonction_forme.evaluate(i, ref_v);
+		std::cout << eval_shape_func << std::endl;
+		
+		return true; 
+	}
+	
+	bool test_evaluategrad_shapefunction(int dim, int order, int i)
+	{
+		ShapeFunctions fonction_forme(dim, order );
+		vertex ref_v;
+		ref_v.x=0.2;
+		ref_v.y=0.4;
+		
+		vec2 evalgrad_shape_func = fonction_forme.evaluate_grad(i, ref_v);
+		std::cout << evalgrad_shape_func.x << std::endl << evalgrad_shape_func.y << std::endl;
+		
+		return true; 
+	}
     }
 }

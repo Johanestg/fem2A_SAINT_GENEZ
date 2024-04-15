@@ -38,7 +38,9 @@ void run_tests()
     const bool t_transform_element_mapping = false;
     const bool t_jacobian_matrix_elementmapping = false;
     const bool t_constructeur_shapefunction = false;
-    const bool t_nbfunction_shapefunction = true;
+    const bool t_nbfunction_shapefunction = false;
+    const bool t_evaluate_shapefunction = false;
+    const bool t_evaluategrad_shapefunction = true;
 
     if( t_opennl ) test_opennl();
     if( t_lmesh ) Tests::test_load_mesh();
@@ -49,6 +51,8 @@ void run_tests()
     if (t_jacobian_matrix_elementmapping) Tests::test_jacobian_matrix_elementmapping();
     if (t_constructeur_shapefunction) Tests::test_constructeur_shapefunction(2,1);
     if (t_nbfunction_shapefunction) Tests::test_nbfunction_shapefunction(1,1);
+    if (t_evaluate_shapefunction) Tests::test_evaluate_shapefunction(1, 1, 0);
+    if (t_evaluategrad_shapefunction) Tests::test_evaluategrad_shapefunction(2, 1, 2);
 } /* comme les trois true, on lance les trois fonctions test */
 
 /* Fonction pour lancer la simulation*/
