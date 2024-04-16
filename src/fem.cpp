@@ -41,11 +41,11 @@ namespace FEM2A {
         return wxy_[3 * i + 0] ;
     }
 
-    const double triangle_P0[3] = {
+    const double triangle_P0[3] = { // 1 point
         0.5, 0.333333333333333, 0.333333333333333
     };
 
-    const double triangle_P2[9] = {
+    const double triangle_P2[9] = {  //3 points
         0.166666666666667, 0.166666666666667, 0.166666666666667,
         0.166666666666667, 0.166666666666667, 0.666666666666667,
         0.166666666666667, 0.666666666666667, 0.166666666666667
@@ -327,7 +327,7 @@ namespace FEM2A {
         
         		for (int q =0 ; q < quadrature.nb_points() ; q++)
         		{
-        			vertex pt_integration = quadrature.point(q);
+        			vertex pt_integration = quadrature.point(q); 
         			
         			double wq = quadrature.weight(q);
         			/* Matrice jacobienne, en fonction du point de Gauss regardé ( = point de 		 référence )*/
@@ -356,10 +356,9 @@ namespace FEM2A {
         		}
         		
         		Ke.set( i, j, sum_Ke );
-        	
         	}
         }
-        
+        Ke.print();
     }
 
     void local_to_global_matrix(

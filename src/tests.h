@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <stdlib.h>
 
+#include "simu.h"
+
 namespace FEM2A {
     namespace Tests {
 
@@ -173,8 +175,26 @@ namespace FEM2A {
 	}
 	
 	
-	bool test_assemble_elementary_matrix(int dim, int order, int i)
+	bool test_assemble_elementary_matrix()
 	{
+		// Charge un mesh
+		Mesh mesh;
+		mesh.load("data/square.mesh");
+		
+		// Test pour un triangle
+		ElementMapping element_map_triangle(mesh, false, 4);
+		
+		// Shape function 
+		ShapeFunctions fonction_forme(2, 1);
+		
+		// Quadrature
+		Quadrature q= q.get_quadrature(2, false);
+		
+		// Ke
+		DenseMatrix Ke;
+		Ke.set_size( 3, 3 );
+				
+		assemble_elementary_matrix(element_map_triangle, fonction_forme, q, FEM2A::Simu::unit_fct, Ke ); 
 		return true;
 	}
 	
