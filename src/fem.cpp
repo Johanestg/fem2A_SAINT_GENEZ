@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cmath>
 #include <limits>
+#include <vector>
 #include <stdlib.h>
 #include <assert.h>
 
@@ -132,9 +133,6 @@ namespace FEM2A {
     ElementMapping::ElementMapping( const Mesh& M, bool border, int i )
         : border_( border )
     {
-        std::cout << "[ElementMapping] constructor for element " << i << " ";
-        
-        // TODO
         int nb_vertices=0;
         if (border) //edge
         {	
@@ -155,8 +153,6 @@ namespace FEM2A {
 
     vertex ElementMapping::transform( vertex x_r ) const
     {
-        std::cout << "[ElementMapping] transform reference to world space" << '\n';
-        // TODO
         vertex r ;
         if (border_) 
         {
@@ -173,8 +169,6 @@ namespace FEM2A {
 
     DenseMatrix ElementMapping::jacobian_matrix( vertex x_r ) const
     {
-        std::cout << "[ElementMapping] compute jacobian matrix" << '\n';
-        // TODO
         DenseMatrix J ;
         if (border_)
         {
@@ -195,8 +189,7 @@ namespace FEM2A {
 
     double ElementMapping::jacobian( vertex x_r ) const
     {
-        std::cout << "[ElementMapping] compute jacobian determinant" << '\n';
-        // TODO
+
         DenseMatrix J = jacobian_matrix(x_r); // Création de la matrice jacobienne du vertex x_r
         double det = 0.;
         if (border_)
@@ -215,7 +208,6 @@ namespace FEM2A {
     
    int ElementMapping::get_vertices()
    {
-   	std::cout <<"Coordonnées des sommets :" << std::endl;
    	for (int j=0; j< vertices_.size() ; j++)
    	{
    		std::cout << "v" << j << " : " << vertices_[j].x << "	" << vertices_[j].y << std::endl;
@@ -231,14 +223,12 @@ namespace FEM2A {
     ShapeFunctions::ShapeFunctions( int dim, int order )
         : dim_( dim ), order_( order )
     {
-        std::cout << "[ShapeFunctions] constructor in dimension " << dim  << '\n';
         assert( (dim_ ==1) || (dim_ ==2) );
         assert( order_== 1 );
     }
 
     int ShapeFunctions::nb_functions() const
     {
-        std::cout << "[ShapeFunctions] number of functions" << '\n';
         int nb_func = 0;
         if (dim_==1) nb_func = 2;
 	nb_func = 3 ;
@@ -247,8 +237,6 @@ namespace FEM2A {
 
     double ShapeFunctions::evaluate( int i, vertex x_r ) const
     {
-        std::cout << "[ShapeFunctions] evaluate shape function " << i << '\n';
-        // TODO
         
         double shape_func=0.;
         if (dim_==1)
@@ -268,7 +256,7 @@ namespace FEM2A {
 
     vec2 ShapeFunctions::evaluate_grad( int i, vertex x_r ) const
     {
-        std::cout << "[ShapeFunctions] evaluate gradient shape function " << i << '\n';
+        //std::cout << "[ShapeFunctions] evaluate gradient shape function " << i << '\n';
         // TODO
         vec2 g ;
         
@@ -316,7 +304,7 @@ namespace FEM2A {
         double (*coefficient)(vertex), /* coefficient est un pointeur de fonction attendant un paramètre vertex et renvoyant un double*/
         DenseMatrix& Ke ) // Ke est une référence d'une matrice
     {
-        std::cout << "compute elementary matrix" << '\n';
+        //std::cout << "compute elementary matrix" << '\n';
         // TODO
         
         for (int i=0 ; i < reference_functions.nb_functions(); i++)
@@ -355,7 +343,7 @@ namespace FEM2A {
  				sum_Ke += wq * coefficient( pt_integration ) * prod_scal * det_jacob_mat ;
         		}
         		
-        		Ke.set( i, j, sum_Ke );
+        		Ke.set( i, j, sum_Ke ); /*Comme on appelle la réf de Ke, Ke est updaté en dehors de cette fonction*/
         	}
         }
         Ke.print();
@@ -369,6 +357,23 @@ namespace FEM2A {
     {
         std::cout << "Ke -> K" << '\n';
         // TODO
+        
+        std::vector<int> ind_global;
+        for (int i= 0; i < Ke.height() ; i++)
+        {
+        	ind_global.push_back(M.get_triangle_vertex_index( t, i) ); /*les indices globaux des vertices du triangle sont stockés dans le vecteur ind_global*/
+        }
+        for (int i= 0; i < Ke.height() ; i++)
+        {
+        	for (int j= 0; j < Ke.width() ; j++)
+        	{
+        		K.add(ind_global[i], ind_global[j], Ke.get(i,j));
+        	}
+        }
+       	K.print();
+        
+        
+        
     }
 
     void assemble_elementary_vector(

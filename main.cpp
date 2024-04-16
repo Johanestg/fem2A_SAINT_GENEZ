@@ -41,8 +41,9 @@ void run_tests()
     const bool t_nbfunction_shapefunction = false;
     const bool t_evaluate_shapefunction = false;
     const bool t_evaluategrad_shapefunction = false;
-    const bool t_assemble_elementary_matrix = true;
-
+    const bool t_assemble_elementary_matrix = false;
+    const bool t_local_to_global_matrix= true;
+    
     if( t_opennl ) test_opennl();
     if( t_lmesh ) Tests::test_load_mesh();
     if( t_io ) Tests::test_load_save_mesh();
@@ -55,6 +56,7 @@ void run_tests()
     if (t_evaluate_shapefunction) Tests::test_evaluate_shapefunction(1, 1, 0);
     if (t_evaluategrad_shapefunction) Tests::test_evaluategrad_shapefunction(1, 1, 0);
     if (t_assemble_elementary_matrix) Tests::test_assemble_elementary_matrix();
+    if (t_local_to_global_matrix) Tests::test_local_to_global_matrix();
 } /* comme les trois true, on lance les trois fonctions test */
 
 /* Fonction pour lancer la simulation*/

@@ -198,6 +198,32 @@ namespace FEM2A {
 		return true;
 	}
 	
+	bool test_local_to_global_matrix()
+	{
+		// Charge un mesh
+		Mesh mesh;
+		mesh.load("data/square.mesh");
+		
+		// Test pour un triangle
+		ElementMapping element_map_triangle(mesh, false, 4);
+		
+		// Shape function 
+		ShapeFunctions fonction_forme(2, 1);
+		
+		// Quadrature
+		Quadrature q= q.get_quadrature(2, false);
+		
+		// Crée Ke et calcul ses valeurs
+		DenseMatrix Ke;
+		Ke.set_size( 3, 3 );
+		assemble_elementary_matrix(element_map_triangle, fonction_forme, q, FEM2A::Simu::unit_fct, Ke );
+				
+		// Crée K et lui donne ses valeurs pour l'élément t
+		int t = 4;
+		SparseMatrix K(mesh.nb_vertices());		
+		local_to_global_matrix( mesh , t, Ke, K );
+		return true;
+	}
 	
 	
     }
