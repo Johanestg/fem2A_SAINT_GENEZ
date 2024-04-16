@@ -171,5 +171,14 @@ namespace FEM2A {
 		
 		return true; 
 	}
+	
+	
+	bool test_assemble_elementary_matrix(int dim, int order, int i)
+	{
+		return true;
+	}
+	
+	
+	
     }
 }

@@ -319,13 +319,45 @@ namespace FEM2A {
         std::cout << "compute elementary matrix" << '\n';
         // TODO
         
-       /double sum = 0.;
-        
-        for (int j =0 ; j < quadrature.nb_points() ; j++)
+        for (int i=0 ; i < reference_functions.nb_functions(); i++)
         {
-        	wq = quadrature.weight(j);
-        	grad_shape_func = reference_functions.evaluate(
+        	for (int j=0; j < reference_functions.nb_functions(); j++)
+        	{
+       			double sum_Ke = 0.;
+        
+        		for (int q =0 ; q < quadrature.nb_points() ; q++)
+        		{
+        			vertex pt_integration = quadrature.point(q);
+        			
+        			double wq = quadrature.weight(q);
+        			/* Matrice jacobienne, en fonction du point de Gauss regardé ( = point de 		 référence )*/
+        			DenseMatrix jacob_mat = elt_mapping.jacobian_matrix( pt_integration );
+        			DenseMatrix inv_jacob_mat = jacob_mat.invert_2x2();
+        			DenseMatrix trans_inv_jacob_mat = inv_jacob_mat.transpose(); 
+        		
+        			/* Gradient de shape function d'indice i (doit le faire 3 fois pour un triangle*/
+        			vec2 grad_shape_func_i = reference_functions.evaluate_grad(i, pt_integration );
+        		
+        			/* Gradient de shape function d'indice t (doit le faire 3 fois pour un triangle*/
+        			vec2 grad_shape_func_j = reference_functions.evaluate_grad(j, pt_integration );
+        			
+        			/* Détermiant de la matrice jacobienne de l'élément e*/
+        			double det_jacob_mat = elt_mapping.jacobian( quadrature.point(q) );
+ 
+ 				/***************** Somme pour Ke *****************/
+ 				
+ 				/* Produit scalaire */   
+ 				vec2 vect_je_grad_i = trans_inv_jacob_mat.mult_2x2_2( grad_shape_func_i );  
+ 				vec2 vect_je_grad_j = trans_inv_jacob_mat.mult_2x2_2( grad_shape_func_j );
+ 				
+ 				double prod_scal = dot( vect_je_grad_i , vect_je_grad_j );
+ 				
+ 				sum_Ke += wq * coefficient( pt_integration ) * prod_scal * det_jacob_mat ;
+        		}
+        		
+        		Ke.set( i, j, sum_Ke );
         	
+        	}
         }
         
     }
