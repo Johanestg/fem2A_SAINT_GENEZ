@@ -35,7 +35,7 @@ namespace FEM2A {
             int get_attr_max() const ;
 
             /**
-             * \brief  Sets the attribute of a triangle (if border is false) or of a segment
+             * \brief  Sets the attribute of the triangles (if border is false) or of the segments
              *         (if border is true) to attribute_index if the function region applied
              *         to all vertices is stricty positive.
              *         Overwrites the previous region attributes.

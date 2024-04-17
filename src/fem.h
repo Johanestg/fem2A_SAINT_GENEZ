@@ -245,7 +245,7 @@ namespace FEM2A {
         std::vector< double >& Fe,
         std::vector< double >& F ) ;
 
-    /**
+     /**
      * \brief  Modifies the linear system with the penalty method to
      *         apply Dirichlet boundary conditions.
      *

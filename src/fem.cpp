@@ -355,9 +355,6 @@ namespace FEM2A {
         const DenseMatrix& Ke,
         SparseMatrix& K )
     {
-        std::cout << "Ke -> K" << '\n';
-        // TODO
-        
         std::vector<int> ind_global;
         for (int i= 0; i < Ke.height() ; i++)
         {
@@ -370,10 +367,7 @@ namespace FEM2A {
         		K.add(ind_global[i], ind_global[j], Ke.get(i,j));
         	}
         }
-       	K.print();
-        
-        
-        
+       	K.print();       
     }
 
     void assemble_elementary_vector(
@@ -418,6 +412,37 @@ namespace FEM2A {
     {
         std::cout << "apply dirichlet boundary conditions" << '\n';
         // TODO
+        /*vecteur taille de values rempli de false*/
+       	std::vector<bool> processed_vertices(values.size(), false); 
+       	/* penalty_coefficient est le gros coefficient P*/
+        double penalty_coefficient =10000.;
+        
+        /* On parcourt tous les edge du bord de la simulation*/
+        for (int i=0; i< M.nb_edges(); i++)
+        {
+        	/* Pour chaque edge, on récupère la valeur de son de son attribut*/
+        	int edge_attribute = M.get_edge_attribute(i);
+        	
+        	/* 
+        	Dans attribut_is_diriclet, il est stocké la correspondance entre la valeur d'un attribut d'un edge et
+        	le fait que cet edge est un bord du maillage ou pas. True si c'est un bord, false sinon
+        	si c'est tru, on rentre dans le if */
+        	if (attribute_is_dirichlet[edge_attribute])
+        	{
+        	/* Pour chacun des vertices associés au edge du bord*/
+        	for( int v = 0; v < 2; v++ ) {
+                    int vertex_index = M.get_edge_vertex_index(i, v);
+                    if( !processed_vertices[vertex_index] ) {
+                        processed_vertices[vertex_index] = true;
+                        K.add(vertex_index, vertex_index, penalty_coefficient);
+                        F[vertex_index] += penalty_coefficient*values[vertex_index]; /* values correspond à g*/
+                    }
+                }
+                     /* J'avais juste pas compris que edge_attribute avait comme dimension nb_edges et pas nb_vertices*/
+        	    //K.add(i, i, penalized_method);
+        	    //F[i] += penalized_method*values[i];
+        	}
+        }
     }
 
     void solve_poisson_problem(
