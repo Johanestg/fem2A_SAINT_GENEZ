@@ -59,8 +59,8 @@ void run_tests()
     if (t_evaluategrad_shapefunction) Tests::test_evaluategrad_shapefunction(1, 1, 0);
     if (t_assemble_elementary_matrix) Tests::test_assemble_elementary_matrix();
     if (t_local_to_global_matrix) Tests::test_local_to_global_matrix();
-    if (t_assemble_elementary_vector) Tests::test_assemble_elementary_vector(false);
-    if (t_local_to_global_vector) Tests::test_local_to_global_vector(true);
+    if (t_assemble_elementary_vector) Tests::test_assemble_elementary_vector(false); /* pour segment ou triangle*/
+    if (t_local_to_global_vector) Tests::test_local_to_global_vector(true); /* pour segment ou triangle*/
     
 } /* comme les trois true, on lance les trois fonctions test */
 
@@ -74,7 +74,7 @@ void run_simu()
         || flag_is_used( "--verbose", arguments );
 
     if( simu_pure_dirichlet ) {
-        Simu::pure_dirichlet_pb("data/square_fine.mesh", verbose);
+        Simu::dirichlet_terme_source("data/square_fine.mesh", verbose, false);
     }
 }
 

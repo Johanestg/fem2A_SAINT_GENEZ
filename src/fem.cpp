@@ -304,6 +304,7 @@ namespace FEM2A {
         double (*coefficient)(vertex), /* coefficient est un pointeur de fonction attendant un paramètre vertex et renvoyant un double*/
         DenseMatrix& Ke ) // Ke est une référence d'une matrice
     {
+    std::cout << "local matrix in " << std::endl;
         
         for (int i=0 ; i < reference_functions.nb_functions(); i++)
         {
@@ -345,6 +346,8 @@ namespace FEM2A {
         	}
         }
         Ke.print();
+        std::cout << "ele matrix out " << std::endl;
+        
     }
 
     void local_to_global_matrix(
@@ -353,19 +356,24 @@ namespace FEM2A {
         const DenseMatrix& Ke,
         SparseMatrix& K )
     {
-        std::vector<int> ind_global;
-        for (int i= 0; i < Ke.height() ; i++)
+    std::cout << "local matrix in" << std::endl;
+    	
+        for (int i=0; i<3; i++)
         {
-        	ind_global.push_back(M.get_triangle_vertex_index( t, i) ); /*les indices globaux des vertices du triangle sont stockés dans le vecteur ind_global*/
-        }
-        for (int i= 0; i < Ke.height() ; i++)
-        {
-        	for (int j= 0; j < Ke.width() ; j++)
-        	{
-        		K.add(ind_global[i], ind_global[j], Ke.get(i,j));
+        	for (int j=0; j<3; j++)
+        	{ 
+        		int glob_ind1 = M.get_triangle_vertex_index( t, i);
+        		int glob_ind2= M.get_triangle_vertex_index( t, j) ;
+        		std::cout << "Je vais ajouter à K un élément de Ke" << std::endl;
+        		std::cout << "glob_ind1= " << glob_ind1<< std::endl;
+        		std::cout << "glob_ind2= " << glob_ind2<< std::endl;
+        		std::cout << "KE " << Ke.get(i,j)<< std::endl;
+        		K.add(glob_ind1, glob_ind2, Ke.get(i,j));
+        		std::cout << "Je l'ai ajouté à K un élément de Ke" << std::endl;
         	}
         }
-       	// K.print();       
+       	// K.print();  
+       	std::cout << "local matrix out " << std::endl;     
     }
 
     void assemble_elementary_vector(
@@ -375,6 +383,7 @@ namespace FEM2A {
         double (*source)(vertex),
         std::vector< double >& Fe )
     {
+    std::cout << "ele vector in " << std::endl;
         
         for (int i=0; i< reference_functions.nb_functions(); i++)
         {
@@ -397,6 +406,7 @@ namespace FEM2A {
         	}
         	Fe.push_back( sum_Fe );
     	}
+    	std::cout << "ele vector out " << std::endl;
     }
     
 
@@ -429,18 +439,20 @@ namespace FEM2A {
         	{
         		F[ M.get_edge_vertex_index( i, ind_local) ] = Fe[ind_local];
         		
-        		std::cout << "le numéro global du point " << ind_local << " est " << M.get_edge_vertex_index( i, ind_local) << "." << std::endl;
+        		//std::cout << "le numéro global du point " << ind_local << " est " << M.get_edge_vertex_index( i, ind_local) << "." << std::endl;
         	}
         }
         
         else
         {
+        std::cout << "local vector in " << std::endl;
         	for (int ind_local =0; ind_local < Fe.size(); ind_local++)
         	{
         		F[ M.get_triangle_vertex_index( i, ind_local) ] = Fe[ind_local];
-        		std::cout << "le numéro global du point " << ind_local << " est " << M.get_triangle_vertex_index( i, ind_local) << "." << std::endl;
+        		//std::cout << "le numéro global du point " << ind_local << " est " << M.get_triangle_vertex_index( i, ind_local) << "." << std::endl;
         	}
         }
+        std::cout << "local vector out " << std::endl;
     }
 
     void apply_dirichlet_boundary_conditions(
@@ -476,11 +488,9 @@ namespace FEM2A {
                         processed_vertices[vertex_index] = true;
                         K.add(vertex_index, vertex_index, penalty_coefficient);
                         F[vertex_index] += penalty_coefficient*values[vertex_index]; /* values correspond à g*/
+                    	}
                     }
-                }
-                     /* J'avais juste pas compris que edge_attribute avait comme dimension nb_edges et pas nb_vertices*/
-        	    //K.add(i, i, penalized_method);
-        	    //F[i] += penalized_method*values[i];
+
         	}
         }
     }

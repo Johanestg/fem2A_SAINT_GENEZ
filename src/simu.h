@@ -67,7 +67,7 @@ namespace FEM2A {
 	    for (int vert_ind =0; vert_ind < M.nb_vertices() ; vert_ind++)
 	    {
 	    	g.push_back(M.get_vertex( vert_ind ).x + M.get_vertex( vert_ind ).y ); /* u= x + y */
-	    	F.push_back(0); /* car pas de conditions de Neumann et f=0 */
+	    	F.push_back(0); /* car pas de terme source */
 	    }
 	    
 	    /*** Création de attribute_is_Dirichlet ***/
@@ -89,6 +89,70 @@ namespace FEM2A {
 	    M.save("./simulation/"+out_name+".mesh");  /* créer un dossier simulation où stocker les mesh et la solution des simulation*/
 	    save_solution(x, "./simulation/"+out_name+".bb");
 
+        }
+        
+        
+        
+        void dirichlet_terme_source( const std::string& mesh_filename, bool verbose , bool border)
+        {
+            /*** Initiation des variables pour la création de la matrice K ***/
+	    Mesh M;
+            M.load(mesh_filename);
+            
+	    ShapeFunctions fonction_forme(2, 1);
+	    Quadrature q= q.get_quadrature(2, border);
+	    
+	    DenseMatrix Ke;
+	    Ke.set_size( 3, 3 );
+	    
+	    SparseMatrix K(M.nb_vertices());
+	    std::cout << "nb_ vertices= " << M.nb_vertices() << std::endl;
+	    
+	    
+	    std::vector< double > F( q.nb_points()); /*taille de F est nb de points d'intégration*/
+	    	
+	    	    
+	    /*** Création de la matrice K pour tous les triangles ***/
+	    for (int triangle = 0; triangle < M.nb_triangles(); triangle++)
+	    {
+	    	std::vector< double > Fe;
+	    	ElementMapping element_map_triangle(M, false, triangle);
+	    	std::cout<< "1" << std::endl;
+	    	assemble_elementary_matrix(element_map_triangle, fonction_forme, q, FEM2A::Simu::unit_fct, Ke );
+	    	std::cout<< "2" << std::endl;	
+	    	local_to_global_matrix( M, triangle, Ke, K );
+	    	std::cout<< "3" << std::endl;
+	    	assemble_elementary_vector(element_map_triangle, fonction_forme, q, FEM2A::Simu::unit_fct, Fe );
+	    	std::cout<< "4" << std::endl;
+		local_to_global_vector(M, border, triangle, Fe, F );
+		std::cout<< "5" << std::endl;
+	    }
+	    
+	    /*** Création de g et de F pour ensuite appliquer les conditions de Dirichlet ***/
+	    std::vector<double> g;
+	    for (int vert_ind =0; vert_ind < M.nb_vertices() ; vert_ind++)
+	    {
+	    	g.push_back(0); /* On impose partout u= 0 */
+	    }
+	    
+	    /*** Création de attribute_is_Dirichlet ***/
+	    M.set_attribute( unit_fct, 0 , false ); //affecte la valeur d'attribut 0 à tous les triangles
+	    M.set_attribute( unit_fct, 1 , true ); /*affecte la valeur d'attribut 1 à tous les edge
+	    					      1 correspond à la condition de Dirichlet*/
+	    
+	    std::vector< bool > attribute_is_dirichlet;
+	    attribute_is_dirichlet.push_back( false );
+	    attribute_is_dirichlet.push_back( true );
+	    
+	    /*** Application des conditions de Dirichlet ***/
+	    apply_dirichlet_boundary_conditions( M, attribute_is_dirichlet, g, K, F );
+	    
+	    /*** Résolution du système ***/
+	    std::vector< double > x(M.nb_vertices());
+	    solve( K, F, x );
+	    std::string out_name = "dirichlet_terme_source";
+	    M.save("./simulation/"+out_name+".mesh");  /* créer un dossier simulation où stocker les mesh et la solution des simulation*/
+	    save_solution(x, "./simulation/"+out_name+".bb");
         }
 
     }
