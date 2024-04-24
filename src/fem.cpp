@@ -375,14 +375,12 @@ namespace FEM2A {
         double (*source)(vertex),
         std::vector< double >& Fe )
     {
-    	std::cout<< "nombre point quadra" << reference_functions.nb_functions() << std::endl;
         
         for (int i=0; i< reference_functions.nb_functions(); i++)
         {
         	double sum_Fe=0.;
         	for (int q=0; q < quadrature.nb_points(); q++) /* nombre de point d'intégration est nb de pt quadra*/
         	{
-        		std::cout << "12" << std::endl;
         		vertex pt_integration = quadrature.point(q); 
         			
         		double wq = quadrature.weight(q);
