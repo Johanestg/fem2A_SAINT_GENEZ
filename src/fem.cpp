@@ -231,7 +231,7 @@ namespace FEM2A {
     {
         int nb_func = 0;
         if (dim_==1) nb_func = 2;
-	nb_func = 3 ;
+        else nb_func = 3 ;
         return nb_func ;
     }
 
@@ -375,12 +375,14 @@ namespace FEM2A {
         double (*source)(vertex),
         std::vector< double >& Fe )
     {
+    	std::cout<< "nombre point quadra" << reference_functions.nb_functions() << std::endl;
         
         for (int i=0; i< reference_functions.nb_functions(); i++)
         {
         	double sum_Fe=0.;
         	for (int q=0; q < quadrature.nb_points(); q++) /* nombre de point d'intégration est nb de pt quadra*/
         	{
+        		std::cout << "12" << std::endl;
         		vertex pt_integration = quadrature.point(q); 
         			
         		double wq = quadrature.weight(q);
@@ -420,6 +422,27 @@ namespace FEM2A {
     {
         std::cout << "Fe -> F" << '\n';
         // TODO
+        
+        std::vector<int> ind_global;
+        
+        if (border)
+        {
+        	for (int ind_local =0; ind_local < Fe.size(); ind_local++)
+        	{
+        		F[ M.get_edge_vertex_index( i, ind_local) ] = Fe[ind_local];
+        		
+        		std::cout << "le numéro global du point " << ind_local << " est " << M.get_edge_vertex_index( i, ind_local) << "." << std::endl;
+        	}
+        }
+        
+        else
+        {
+        	for (int ind_local =0; ind_local < Fe.size(); ind_local++)
+        	{
+        		F[ M.get_triangle_vertex_index( i, ind_local) ] = Fe[ind_local];
+        		std::cout << "le numéro global du point " << ind_local << " est " << M.get_triangle_vertex_index( i, ind_local) << "." << std::endl;
+        	}
+        }
     }
 
     void apply_dirichlet_boundary_conditions(
