@@ -304,8 +304,6 @@ namespace FEM2A {
         double (*coefficient)(vertex), /* coefficient est un pointeur de fonction attendant un paramètre vertex et renvoyant un double*/
         DenseMatrix& Ke ) // Ke est une référence d'une matrice
     {
-        //std::cout << "compute elementary matrix" << '\n';
-        // TODO
         
         for (int i=0 ; i < reference_functions.nb_functions(); i++)
         {
@@ -367,7 +365,7 @@ namespace FEM2A {
         		K.add(ind_global[i], ind_global[j], Ke.get(i,j));
         	}
         }
-       	K.print();       
+       	// K.print();       
     }
 
     void assemble_elementary_vector(
@@ -377,8 +375,7 @@ namespace FEM2A {
         double (*source)(vertex),
         std::vector< double >& Fe )
     {
-        std::cout << "compute elementary vector (source term)" << '\n';
-        // TODO
+        
         for (int i=0; i< reference_functions.nb_functions(); i++)
         {
         	double sum_Fe=0.;
@@ -399,7 +396,6 @@ namespace FEM2A {
         		sum_Fe += wq * val_shape_func * f * det_jacob_mat;
         	}
         	Fe.push_back( sum_Fe );
-        	std::cout << sum_Fe << std::endl;
     	}
     }
     

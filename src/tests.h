@@ -225,5 +225,32 @@ namespace FEM2A {
 		return true;
 	}
 	
+	bool test_assemble_elementary_vector()
+	{
+		// Charge un mesh
+		Mesh mesh;
+		mesh.load("data/square.mesh");
+		
+		// Test pour un triangle
+		ElementMapping element_map_triangle(mesh, false, 4);
+		
+		// Shape function 
+		ShapeFunctions fonction_forme(2, 1);
+		
+		// Quadrature
+		Quadrature q= q.get_quadrature(2, false);
+		
+		// Ke
+		std::vector< double > Fe;
+				
+		assemble_elementary_vector(element_map_triangle, fonction_forme, q, FEM2A::Simu::unit_fct, Fe ); 
+		
+		for (int i = 0; i< Fe.size() ; i++)
+		{
+			std::cout << Fe[i] << std::endl;
+		}
+		return true;
+	}
+	
     }
 }
