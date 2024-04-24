@@ -330,7 +330,7 @@ namespace FEM2A {
         			vec2 grad_shape_func_j = reference_functions.evaluate_grad(j, pt_integration );
         			
         			/* Détermiant de la matrice jacobienne de l'élément e*/
-        			double det_jacob_mat = elt_mapping.jacobian( quadrature.point(q) );
+        			double det_jacob_mat = elt_mapping.jacobian( pt_integration );
  
  				/***************** Somme pour Ke *****************/
  				
@@ -379,7 +379,30 @@ namespace FEM2A {
     {
         std::cout << "compute elementary vector (source term)" << '\n';
         // TODO
+        for (int i=0; i< reference_functions.nb_functions(); i++)
+        {
+        	double sum_Fe=0.;
+        	for (int q=0; q < quadrature.nb_points(); q++) /* nombre de point d'intégration est nb de pt quadra*/
+        	{
+        		vertex pt_integration = quadrature.point(q); 
+        			
+        		double wq = quadrature.weight(q);
+        		
+        		double val_shape_func = reference_functions.evaluate( i, pt_integration );
+        		
+        		/* Valeur de f au point de la transformation Me*/
+        		double f = source( pt_integration);
+        		
+        		/* Détermiant de la matrice jacobienne de l'élément e*/
+        		double det_jacob_mat = elt_mapping.jacobian( pt_integration );
+        		
+        		sum_Fe += wq * val_shape_func * f * det_jacob_mat;
+        	}
+        	Fe.push_back( sum_Fe );
+        	std::cout << sum_Fe << std::endl;
+    	}
     }
+    
 
     void assemble_elementary_neumann_vector(
         const ElementMapping& elt_mapping_1D,
