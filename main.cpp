@@ -69,13 +69,16 @@ void run_simu()
 {
 
     const bool simu_pure_dirichlet = false;
-    const bool simu_dirichlet = true;
+    const bool simu_dirichlet = false;
+    const bool simu_dirichlet_sinus_bump = true;
+
 
     const bool verbose = flag_is_used( "-v", arguments )
         || flag_is_used( "--verbose", arguments );
 
-    if( simu_pure_dirichlet ) Simu::pure_dirichlet_pb("data/square_fine.mesh", verbose, false);
+    if( simu_pure_dirichlet ) Simu::pure_dirichlet_pb("data/square_fine.mesh", verbose);
     if (simu_dirichlet) Simu::dirichlet_terme_source("data/square_fine.mesh", verbose, false);
+    if (simu_dirichlet_sinus_bump) Simu::sinus_bump("data/square_fine.mesh", verbose, false);
 }
 
 
