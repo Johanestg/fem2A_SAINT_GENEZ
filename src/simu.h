@@ -95,6 +95,12 @@ namespace FEM2A {
         
         void dirichlet_terme_source( const std::string& mesh_filename, bool verbose , bool border)
         {
+        	std::cout << "Solving a Dirichlet problem with source term" << std::endl;
+            	if ( verbose ) 
+            	{
+                	std::cout << " with lots of printed details..." << std::endl;
+            	}
+            	      	
             /*** Initiation des variables pour la création de la matrice K ***/
 	    Mesh M;
             M.load(mesh_filename);
@@ -106,10 +112,8 @@ namespace FEM2A {
 	    Ke.set_size( 3, 3 );
 	    
 	    SparseMatrix K(M.nb_vertices());
-	    std::cout << "nb_ vertices= " << M.nb_vertices() << std::endl;
 	    
-	    
-	    std::vector< double > F( q.nb_points()); /*taille de F est nb de points d'intégration*/
+	    std::vector< double > F(M.nb_vertices()); /*taille de F est nb de points d'intégration*/
 	    	
 	    	    
 	    /*** Création de la matrice K pour tous les triangles ***/
@@ -117,15 +121,11 @@ namespace FEM2A {
 	    {
 	    	std::vector< double > Fe;
 	    	ElementMapping element_map_triangle(M, false, triangle);
-	    	std::cout<< "1" << std::endl;
-	    	assemble_elementary_matrix(element_map_triangle, fonction_forme, q, FEM2A::Simu::unit_fct, Ke );
-	    	std::cout<< "2" << std::endl;	
+	    	assemble_elementary_matrix(element_map_triangle, fonction_forme, q, FEM2A::Simu::unit_fct, Ke );	
 	    	local_to_global_matrix( M, triangle, Ke, K );
-	    	std::cout<< "3" << std::endl;
+
 	    	assemble_elementary_vector(element_map_triangle, fonction_forme, q, FEM2A::Simu::unit_fct, Fe );
-	    	std::cout<< "4" << std::endl;
 		local_to_global_vector(M, border, triangle, Fe, F );
-		std::cout<< "5" << std::endl;
 	    }
 	    
 	    /*** Création de g et de F pour ensuite appliquer les conditions de Dirichlet ***/
@@ -136,9 +136,8 @@ namespace FEM2A {
 	    }
 	    
 	    /*** Création de attribute_is_Dirichlet ***/
-	    M.set_attribute( unit_fct, 0 , false ); //affecte la valeur d'attribut 0 à tous les triangles
-	    M.set_attribute( unit_fct, 1 , true ); /*affecte la valeur d'attribut 1 à tous les edge
-	    					      1 correspond à la condition de Dirichlet*/
+	    M.set_attribute( unit_fct, 0 , false ); /*affecte la valeur d'attribut 0 à tous les triangles*/
+	    M.set_attribute( unit_fct, 1 , true ); /*affecte la valeur d'attribut 1 à tous les edge1 correspond à la condition de Dirichlet*/
 	    
 	    std::vector< bool > attribute_is_dirichlet;
 	    attribute_is_dirichlet.push_back( false );
@@ -150,7 +149,7 @@ namespace FEM2A {
 	    /*** Résolution du système ***/
 	    std::vector< double > x(M.nb_vertices());
 	    solve( K, F, x );
-	    std::string out_name = "dirichlet_terme_source";
+	    std::string out_name = "Dirichlet_terme_source";
 	    M.save("./simulation/"+out_name+".mesh");  /* créer un dossier simulation où stocker les mesh et la solution des simulation*/
 	    save_solution(x, "./simulation/"+out_name+".bb");
         }
