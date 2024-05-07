@@ -417,9 +417,30 @@ namespace FEM2A {
         double (*neumann)(vertex),
         std::vector< double >& Fe )
     {
-        std::cout << "compute elementary vector (neumann condition)" << '\n';
-        // TODO
+        for (int i=0; i< reference_functions_1D.nb_functions(); i++)
+        {
+        	double sum_Fe=0.;
+        	for (int q=0; q < quadrature_1D.nb_points(); q++) /* nombre de point d'intégration est nb de pt quadra*/
+        	{
+        		vertex pt_integration = quadrature_1D.point(q); 
+        			
+        		double wq = quadrature_1D.weight(q);
+        		
+        		double val_shape_func = reference_functions_1D.evaluate( i, pt_integration );
+        		
+        		/* Valeur de h au point de la transformation Me*/
+        		double h = neumann( pt_integration);
+        		
+        		/* Détermiant de la matrice jacobienne de l'élément e*/
+        		//DenseMatrix matrice_jacobienne = elt_mapping_1D.jacobian_matrix(pt_integration);
+        		//double racine_jacob = sqrt(matrice_jacobienne.transpose() * matrice_jacobienne)
+        		double racine_jacob = elt_mapping_1D.jacobian( pt_integration);
+        		sum_Fe += wq * val_shape_func * h * racine_jacob;
+        	}
+        	Fe.push_back( sum_Fe );
+    	}
     }
+    	
 
     void local_to_global_vector(
         const Mesh& M,

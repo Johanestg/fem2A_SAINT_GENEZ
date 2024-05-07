@@ -44,7 +44,8 @@ void run_tests()
     const bool t_assemble_elementary_matrix = false;
     const bool t_local_to_global_matrix= false;
     const bool t_assemble_elementary_vector= false;
-    const bool t_local_to_global_vector= true;
+    const bool t_local_to_global_vector= false;
+    const bool t_assemble_elementary_neumann_vector= true;
     
     if( t_opennl ) test_opennl();
     if( t_lmesh ) Tests::test_load_mesh();
@@ -61,6 +62,7 @@ void run_tests()
     if (t_local_to_global_matrix) Tests::test_local_to_global_matrix();
     if (t_assemble_elementary_vector) Tests::test_assemble_elementary_vector(false); /* pour segment ou triangle*/
     if (t_local_to_global_vector) Tests::test_local_to_global_vector(true); /* pour segment ou triangle*/
+    if (t_assemble_elementary_neumann_vector) Tests::test_assemble_elementary_neumann_vector(false);
     
 } /* comme les trois true, on lance les trois fonctions test */
 

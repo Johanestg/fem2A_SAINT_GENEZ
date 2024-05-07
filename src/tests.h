@@ -284,6 +284,36 @@ namespace FEM2A {
 		local_to_global_vector(mesh, border, i, Fe, F );
 		return true;
 	}
+	
+	bool test_assemble_elementary_neumann_vector(bool border)
+	{
+		// Charge un mesh
+		Mesh mesh;
+		mesh.load("data/square.mesh");
+		
+		// Test pour un triangle
+		ElementMapping element_map_triangle(mesh, border, 4);
+		
+		// Shape function 
+		int dim =0;
+		int& ref_dim= dim;
+		if (border) dim=1;
+		else dim=2;
+		ShapeFunctions fonction_forme(dim, 1);
+	
+		// Quadrature
+		Quadrature q= q.get_quadrature(2, border);
+		
+		// Fe
+		std::vector< double > Fe;	
+		assemble_elementary_neumann_vector(element_map_triangle, fonction_forme, q, FEM2A::Simu::unit_fct, Fe ); 
+		
+		for (int i = 0; i< Fe.size() ; i++)
+		{
+			std::cout << Fe[i] << std::endl;
+		}
+		return true;
+	}
 
 	
     }
