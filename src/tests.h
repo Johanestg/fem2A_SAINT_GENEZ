@@ -21,7 +21,7 @@ namespace FEM2A {
             Mesh mesh;
             mesh.load("data/square.mesh");
 
-            /*std::cout << "Vertices <x> <y> <att>" << std::endl;
+            std::cout << "Vertices <x> <y> <att>" << std::endl;
             for( int v = 0; v < mesh.nb_vertices(); v++ ) {
                 std::cout << mesh.get_vertex(v).x << " " << mesh.get_vertex(v).y
                     << " " << mesh.get_vertex_attribute(v) << std::endl;
@@ -40,7 +40,7 @@ namespace FEM2A {
                     << mesh.get_triangle_vertex_index(tr, 1) << " "
                     << mesh.get_triangle_vertex_index(tr, 2) << " "
                     << mesh.get_triangle_attribute(tr) << std::endl;
-            }*/
+            }
 
             return true;
         }
@@ -53,9 +53,15 @@ namespace FEM2A {
             return true;
         }
 
+
+    /****************************************************************/
+    /* Tests for Quadrature */
+    /****************************************************************/
+
 	bool test_quadrature(int ordre, bool bord)
 	{
-		Quadrature q= q.get_quadrature(ordre, bord);/*On déclare un espace quadrature (Quadrature q) et on définie q en lui donnant des valeurs true quand on a un segment, false quand on a un triangle */
+		/* Declare a quadrature space */
+		Quadrature q= q.get_quadrature(ordre, bord);
 		std::cout << "nombre de points: " << q.nb_points() << std::endl;
 		double somme=0;
 		for (int i=0; i< q.nb_points(); i++)
@@ -63,18 +69,23 @@ namespace FEM2A {
 			std::cout << "poid de chaque point: " << q.weight(i) << std::endl;
 			somme+=q.weight(i);
 		}
-		std::cout << "somme: " << somme << std::endl;
+		std::cout << "Somme des poids: " << somme << std::endl;
 		return true;
  	}
-	
+
+
+    /****************************************************************/
+    /* Tests for ElementMapping */
+    /****************************************************************/
+
 	bool test_constructeur_elementmapping()
 	{
 		Mesh mesh;
 		mesh.load("data/square.mesh");
-		// test pour un triangle
+		// Test for triangle
 		ElementMapping element_map_triangle(mesh, false, 4);
 		element_map_triangle.get_vertices();
-		//test pour segment 
+		// Test for an edge
 		ElementMapping element_map_edge(mesh, true, 4);
 		element_map_edge.get_vertices();
 		
@@ -87,14 +98,14 @@ namespace FEM2A {
 		Mesh mesh;
 		mesh.load("data/square.mesh");
 		
-		// Test pour un triangle
+		// Test for a triangle
 		ElementMapping element_map_triangle(mesh, false, 4);
 		vertex ref_v;
 		ref_v.x=0.2;
 		ref_v.y=0.4;
 		vertex global_v= element_map_triangle.transform(ref_v);
 		std::cout << "Mapping du point:" << std::endl << global_v.x << " " << global_v.y << std::endl;
-		// Test pour un edge
+		// Test for an edge
 		ElementMapping element_map_edge(mesh, true, 4);
 		vertex global_v2= element_map_edge.transform(ref_v);
 		std::cout << "Mapping du point:" << std::endl << global_v2.x << " " << global_v2.y << std::endl;
@@ -105,33 +116,38 @@ namespace FEM2A {
 	
 	bool test_jacobian_matrix_elementmapping()
 	{
-		// Charge un mesh
+		// Load of a mesh
 		Mesh mesh;
 		mesh.load("data/square.mesh");
 		
-		// Test pour un triangle
+		// Test for a triangle
 		ElementMapping element_map_triangle(mesh, false, 4);
 		vertex ref_v;
 		ref_v.x=0.2;
 		ref_v.y=0.4;
 		DenseMatrix jacob_matrix= element_map_triangle.jacobian_matrix(ref_v);
-		// Matrice jacobienne du point pour un triangle
+		// Jacobian matrix of the reference point for a triangle
 		jacob_matrix.print();
-		// Déterminant de la matrice jacobienne
+		// Determinant of jacobian matrix
 		std::cout << element_map_triangle.jacobian(ref_v) << std::endl;
 		
-		// Test pour un edge
+		// Test for an edge
 		ElementMapping element_map_edge(mesh, true, 4);
 		DenseMatrix jacob_matrix2= element_map_edge.jacobian_matrix(ref_v);
-		// Matrice jacobienne du point pour un edge
+		// Jacobian matrix of the reference point for an edge
 		jacob_matrix2.print();
-		// Déterminant de la matrice jacobienne
+		// Determinant of jacobian matrix
 		std::cout << element_map_edge.jacobian(ref_v) << std::endl;
 		
 		return true; 
 		
 	}
-	
+
+
+    /****************************************************************/
+    /* Tests for ShapeFunctions */
+    /****************************************************************/
+
 	bool test_constructeur_shapefunction(int dim, int order)
 	{
 		ShapeFunctions fonction_forme(dim, order );
@@ -173,7 +189,11 @@ namespace FEM2A {
 		
 		return true; 
 	}
-	
+
+
+    /****************************************************************/
+    /* Tests for Finite Element functions */
+    /****************************************************************/
 	
 	bool test_assemble_elementary_matrix()
 	{
@@ -314,7 +334,5 @@ namespace FEM2A {
 		}
 		return true;
 	}
-
-	
     }
 }
