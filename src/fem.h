@@ -93,7 +93,7 @@ namespace FEM2A {
             
             /** 
              * \brief Get the coordinates of vertices.
-             *        Used to test ElementMapping
+             *        Used to test ElementMapping.
             */
             int get_vertices();
 
