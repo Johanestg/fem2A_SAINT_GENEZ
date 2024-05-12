@@ -91,9 +91,9 @@ namespace FEM2A {
              */
             double jacobian( vertex x_r ) const ;
             
-            /** johane
-             * Je rajoute une fonction get_vertices pour imprimer 
-             * les coordonnées des sommets pour le test du construteur
+            /** 
+             * \brief Get the coordinates of vertices.
+             *        Used to test ElementMapping
             */
             int get_vertices();
 
