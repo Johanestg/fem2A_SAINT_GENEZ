@@ -133,15 +133,16 @@ namespace FEM2A {
     ElementMapping::ElementMapping( const Mesh& M, bool border, int i )
         : border_( border )
     {
-        int nb_vertices=0;
-        if (border) //edge
+        if (border) 
+	// Get the mapping of two vertices, one for each points of an edge 
         {	
         	for (int nb_ver=0; nb_ver<2; nb_ver++)
         	{
         		vertices_.push_back(M.get_edge_vertex(i, nb_ver));
         	}
         }
-        else //triangle
+        else 
+	// Get the mapping of three vertices, one for each points of a triangle 
         {
         	for (int nb_ver=0; nb_ver<3; nb_ver++)
         	{
@@ -173,16 +174,16 @@ namespace FEM2A {
         if (border_)
         {
         	J.set_size(2,1); 
-        	J.set(0, 0, -vertices_[0].x + vertices_[1].x);/* dérivée de la coordonnée x de x_r 					 par rapport à xie*/
-        	J.set(1, 0, -vertices_[0].y + vertices_[1].y);/* dérivée de la coordonnée y de x_r par rapport à xie*/
+        	J.set(0, 0, -vertices_[0].x + vertices_[1].x);/* Derivative of the x coordinates of x_r with respect to xie*/
+        	J.set(1, 0, -vertices_[0].y + vertices_[1].y);/* Derivative of the y coordinates of x_r with respect to xiee*/
         }
         else
         {
         	J.set_size(2,2); 
         	J.set(0, 0, -vertices_[0].x + vertices_[1].x);
         	J.set(1, 0, -vertices_[0].y + vertices_[1].y);
-        	J.set(0, 1, -vertices_[0].x + vertices_[2].x);/* dérivée de la coordonnée x de x_r par rapport à eta*/
-        	J.set(1, 1, -vertices_[0].y + vertices_[2].y);/* dérivée de la coordonnée y de x_r par rapport à eta*/
+        	J.set(0, 1, -vertices_[0].x + vertices_[2].x);/* Derivative of the x coordinates of x_r with respect to eta*/
+        	J.set(1, 1, -vertices_[0].y + vertices_[2].y);/* Derivative of the y coordinates of x_r with respect to eta*/
         }
         return J ;
     }
