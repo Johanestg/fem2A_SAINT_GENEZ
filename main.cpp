@@ -36,7 +36,7 @@ void run_tests()
     const bool t_quadra = false; 
     const bool t_constructeur_element_mapping = false;
     const bool t_transform_element_mapping = false;
-    const bool t_jacobian_matrix_elementmapping = false;
+    const bool t_jacobian_matrix_elementmapping = true;
     const bool t_constructeur_shapefunction = false;
     const bool t_nbfunction_shapefunction = false;
     const bool t_evaluate_shapefunction = false;
@@ -45,7 +45,7 @@ void run_tests()
     const bool t_local_to_global_matrix= false;
     const bool t_assemble_elementary_vector= false;
     const bool t_local_to_global_vector= false;
-    const bool t_assemble_elementary_neumann_vector= true;
+    const bool t_assemble_elementary_neumann_vector= false;
     
     if( t_opennl ) test_opennl();
     if( t_lmesh ) Tests::test_load_mesh();

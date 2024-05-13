@@ -197,11 +197,11 @@ namespace FEM2A {
 	
 	bool test_assemble_elementary_matrix()
 	{
-		// Charge un mesh
+		// Load a mesh
 		Mesh mesh;
 		mesh.load("data/square.mesh");
 		
-		// Test pour un triangle
+		// Mapping for a triangle
 		ElementMapping element_map_triangle(mesh, false, 4);
 		
 		// Shape function 
@@ -220,11 +220,11 @@ namespace FEM2A {
 	
 	bool test_local_to_global_matrix()
 	{
-		// Charge un mesh
+		// Load a mesh
 		Mesh mesh;
 		mesh.load("data/square.mesh");
 		
-		// Test pour un triangle
+		// Mapping for a triangle
 		ElementMapping element_map_triangle(mesh, false, 4);
 		
 		// Shape function 

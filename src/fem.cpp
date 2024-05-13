@@ -198,16 +198,17 @@ namespace FEM2A {
     {
 	// Creation of the jacobian matrix of x_r's vertex.
         DenseMatrix J = jacobian_matrix(x_r); 
-	    
+	   
+	double det = 0.; 
         if (border_)
 	// Computes the determinant of the jacobian matrix of the mapping of an edge.
         {
-        	double det = sqrt( J.get(0,0)*J.get(0,0) + J.get(1,0)*J.get(1,0) );
+        	det = sqrt( J.get(0,0)*J.get(0,0) + J.get(1,0)*J.get(1,0) );
         }
         else
 	// Computes the determinant of the jacobian matrix of the mapping of a triangle.
         {
-        	double det = J.det_2x2(); //Calcul du déterminant
+        	det = J.det_2x2(); //Calcul du déterminant
         }
         return det ;
     }
@@ -390,7 +391,7 @@ namespace FEM2A {
         		/* Value of f at the point of Me transformation*/
         		double f = source( pt_integration);
         		
-        		 Jacobian matrix determinant of elt_mapping*/
+        		/*Jacobian matrix determinant of elt_mapping*/
         		double det_jacob_mat = elt_mapping.jacobian( pt_integration );
         		
         		sum_Fe += wq * val_shape_func * f * det_jacob_mat;
