@@ -440,7 +440,7 @@ namespace FEM2A {
         std::vector< double >& F )
     {
         std::vector<int> ind_global; 
-        std::cout << "Assemblage: " << std::endl;
+        // std::cout << "Assemblage: " << std::endl;
         if (border)
         {
         	for (int ind_local =0; ind_local < Fe.size(); ind_local++)
