@@ -446,7 +446,7 @@ namespace FEM2A {
         	for (int ind_local =0; ind_local < Fe.size(); ind_local++)
         	{
         		F[ M.get_edge_vertex_index( i, ind_local) ] = Fe[ind_local];
-        		std::cout << "le numéro global du point " << ind_local << " est " << M.get_edge_vertex_index( i, ind_local) << "." << std::endl;
+        		// std::cout << "le numéro global du point " << ind_local << " est " << M.get_edge_vertex_index( i, ind_local) << "." << std::endl;
         	}
         }
         else
@@ -454,7 +454,7 @@ namespace FEM2A {
         	for (int ind_local =0; ind_local < Fe.size(); ind_local++)
         	{
         		F[ M.get_triangle_vertex_index( i, ind_local) ] = Fe[ind_local];
-        		std::cout << "le numéro global du point " << ind_local << " est " << M.get_triangle_vertex_index( i, ind_local) << "." << std::endl;
+        		// std::cout << "le numéro global du point " << ind_local << " est " << M.get_triangle_vertex_index( i, ind_local) << "." << std::endl;
         	}
         }
     }
