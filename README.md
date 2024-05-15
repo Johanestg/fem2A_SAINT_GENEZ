@@ -1,6 +1,7 @@
-# Éléments Finis en C++
+# 
 
-#### Objectif
+#### Comment utliser les tests
+Les tests sont 
 
 Écrire [un code aux éléments finis en C++](course/code.md) pour résoudre des 
 [problèmes de Poisson](course/poisson.md) 2D avec des éléments triangulaires
