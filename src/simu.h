@@ -90,7 +90,7 @@ namespace FEM2A {
 	    /*** Résolution du système ***/
 	    std::vector< double > x(M.nb_vertices());
 	    solve( K, F, x );
-	    std::string out_name = "pb_pure_dirichlet_fine";
+	    std::string out_name = "pb_pure_dirichlet";
 	    M.save("./output/"+out_name+".mesh");  /* créer un dossier simulation où stocker les mesh et la solution des simulation*/
 	    save_solution(x, "./output/"+out_name+".bb");
 
