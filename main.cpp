@@ -33,10 +33,10 @@ void run_tests()
     const bool t_opennl = false;
     const bool t_lmesh = false;
     const bool t_io = false;
-    const bool t_quadra = false; 
+    const bool t_quadra = true; 
     const bool t_constructeur_element_mapping = false;
     const bool t_transform_element_mapping = false;
-    const bool t_jacobian_matrix_elementmapping = true;
+    const bool t_jacobian_matrix_elementmapping = false;
     const bool t_constructeur_shapefunction = false;
     const bool t_nbfunction_shapefunction = false;
     const bool t_evaluate_shapefunction = false;
@@ -55,14 +55,14 @@ void run_tests()
     if (t_transform_element_mapping) Tests::test_transform_elementmapping();
     if (t_jacobian_matrix_elementmapping) Tests::test_jacobian_matrix_elementmapping();
     if (t_constructeur_shapefunction) Tests::test_constructeur_shapefunction(2,1);
-    if (t_nbfunction_shapefunction) Tests::test_nbfunction_shapefunction(1,1);
+    if (t_nbfunction_shapefunction) Tests::test_nbfunction_shapefunction(2,1);
     if (t_evaluate_shapefunction) Tests::test_evaluate_shapefunction(1, 1, 0);
-    if (t_evaluategrad_shapefunction) Tests::test_evaluategrad_shapefunction(1, 1, 0);
+    if (t_evaluategrad_shapefunction) Tests::test_evaluategrad_shapefunction(2, 1, 0);
     if (t_assemble_elementary_matrix) Tests::test_assemble_elementary_matrix();
     if (t_local_to_global_matrix) Tests::test_local_to_global_matrix();
     if (t_assemble_elementary_vector) Tests::test_assemble_elementary_vector(false); /* pour segment ou triangle*/
-    if (t_local_to_global_vector) Tests::test_local_to_global_vector(true); /* pour segment ou triangle*/
-    if (t_assemble_elementary_neumann_vector) Tests::test_assemble_elementary_neumann_vector(false);
+    if (t_local_to_global_vector) Tests::test_local_to_global_vector(false); /* pour segment ou triangle*/
+    if (t_assemble_elementary_neumann_vector) Tests::test_assemble_elementary_neumann_vector(true);
     
 } /* comme les trois true, on lance les trois fonctions test */
 
@@ -71,16 +71,16 @@ void run_simu()
 {
 
     const bool simu_pure_dirichlet = false;
-    const bool simu_dirichlet = false;
-    const bool simu_dirichlet_sinus_bump = true;
+    const bool simu_dirichlet = true;
+    const bool simu_dirichlet_sinus_bump = false;
 
 
     const bool verbose = flag_is_used( "-v", arguments )
         || flag_is_used( "--verbose", arguments );
 
     if( simu_pure_dirichlet ) Simu::pure_dirichlet_pb("data/square_fine.mesh", verbose);
-    if (simu_dirichlet) Simu::dirichlet_terme_source("data/square_fine.mesh", verbose, false);
-    if (simu_dirichlet_sinus_bump) Simu::sinus_bump("data/square_fine.mesh", verbose, false);
+    if (simu_dirichlet) Simu::dirichlet_terme_source("data/square.mesh", verbose, false);
+    if (simu_dirichlet_sinus_bump) Simu::sinus_bump("data/square.mesh", verbose, false);
 }
 
 

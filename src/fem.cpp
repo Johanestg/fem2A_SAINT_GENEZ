@@ -367,7 +367,7 @@ namespace FEM2A {
         		K.add(glob_ind1, glob_ind2, Ke.get(i,j));
         	}
         }
-       	// K.print();  // Undo comment to compute test_local_to_global_matrix()
+       	//K.print();  // Undo comment to compute test_local_to_global_matrix()
     }
 
     void assemble_elementary_vector(
@@ -440,12 +440,13 @@ namespace FEM2A {
         std::vector< double >& F )
     {
         std::vector<int> ind_global; 
+        std::cout << "Assemblage: " << std::endl;
         if (border)
         {
         	for (int ind_local =0; ind_local < Fe.size(); ind_local++)
         	{
         		F[ M.get_edge_vertex_index( i, ind_local) ] = Fe[ind_local];
-        		//std::cout << "le numéro global du point " << ind_local << " est " << M.get_edge_vertex_index( i, ind_local) << "." << std::endl;
+        		std::cout << "le numéro global du point " << ind_local << " est " << M.get_edge_vertex_index( i, ind_local) << "." << std::endl;
         	}
         }
         else
@@ -453,7 +454,7 @@ namespace FEM2A {
         	for (int ind_local =0; ind_local < Fe.size(); ind_local++)
         	{
         		F[ M.get_triangle_vertex_index( i, ind_local) ] = Fe[ind_local];
-        		//std::cout << "le numéro global du point " << ind_local << " est " << M.get_triangle_vertex_index( i, ind_local) << "." << std::endl;
+        		std::cout << "le numéro global du point " << ind_local << " est " << M.get_triangle_vertex_index( i, ind_local) << "." << std::endl;
         	}
         }
     }

@@ -155,7 +155,7 @@ namespace FEM2A {
 	    /*** Résolution du système ***/
 	    std::vector< double > x(M.nb_vertices());
 	    solve( K, F, x );
-	    std::string out_name = "Dirichlet_terme_source";
+	    std::string out_name = "Dirichlet_terme_source_pas_finece";
 	    M.save("./simulation/"+out_name+".mesh");  /* créer un dossier simulation où stocker les mesh et la solution des simulation*/
 	    save_solution(x, "./simulation/"+out_name+".bb");
         }
@@ -217,7 +217,7 @@ namespace FEM2A {
 	    /*** Résolution du système ***/
 	    std::vector< double > x(M.nb_vertices());
 	    solve( K, F, x );
-	    std::string out_name = "Sinus_bump";
+	    std::string out_name = "Sinus_bump_pas_fine";
 	    M.save("./simulation/"+out_name+".mesh");  /* créer un dossier simulation où stocker les mesh et la solution des simulation*/
 	    save_solution(x, "./simulation/"+out_name+".bb");
         
@@ -277,7 +277,7 @@ namespace FEM2A {
 	    /*** Résolution du système ***/
 	    std::vector< double > x(M.nb_vertices());
 	    solve( K, F, x );
-	    std::string out_name = "Sinus_bump";
+	    std::string out_name = "Sinus_bump_pas_fine";
 	    M.save("./simulation/"+out_name+".mesh");  /* créer un dossier simulation où stocker les mesh et la solution des simulation*/
 	    save_solution(x, "./simulation/"+out_name+".bb");
         

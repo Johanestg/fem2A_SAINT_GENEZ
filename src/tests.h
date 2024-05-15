@@ -127,17 +127,19 @@ namespace FEM2A {
 		ref_v.y=0.4;
 		DenseMatrix jacob_matrix= element_map_triangle.jacobian_matrix(ref_v);
 		// Jacobian matrix of the reference point for a triangle
+		std::cout << "Matrice jacobienne au point (xi=0.2 , eta=0.4) pour le triangle:" << std::endl;
 		jacob_matrix.print();
 		// Determinant of jacobian matrix
-		std::cout << element_map_triangle.jacobian(ref_v) << std::endl;
+		std::cout << "déterminant = " << element_map_triangle.jacobian(ref_v) << std::endl;
 		
 		// Test for an edge
 		ElementMapping element_map_edge(mesh, true, 4);
 		DenseMatrix jacob_matrix2= element_map_edge.jacobian_matrix(ref_v);
 		// Jacobian matrix of the reference point for an edge
+		std::cout << "Matrice jacobienne au point (xi=0.2 , eta=0.4) pour le bord:" << std::endl;
 		jacob_matrix2.print();
 		// Determinant of jacobian matrix
-		std::cout << element_map_edge.jacobian(ref_v) << std::endl;
+		std::cout << "déterminant = " << element_map_edge.jacobian(ref_v) << std::endl;
 		
 		return true; 
 		
@@ -159,7 +161,7 @@ namespace FEM2A {
 	{
 		ShapeFunctions fonction_forme(dim, order );
 		int nb_func = fonction_forme.nb_functions();
-		std::cout << nb_func << std::endl;
+		std::cout << "Le nombre de fonctions de forme est: " <<nb_func << std::endl;
 		
 		return true; 
 	}
@@ -172,7 +174,7 @@ namespace FEM2A {
 		ref_v.y=0.4;
 		
 		double eval_shape_func = fonction_forme.evaluate(i, ref_v);
-		std::cout << eval_shape_func << std::endl;
+		std::cout << "La fonction de forme " << i << " au point (" << ref_v.x << "," << ref_v.y << ") : " << eval_shape_func << std::endl;
 		
 		return true; 
 	}
@@ -185,6 +187,7 @@ namespace FEM2A {
 		ref_v.y=0.4;
 		
 		vec2 evalgrad_shape_func = fonction_forme.evaluate_grad(i, ref_v);
+		std::cout << "Le gradient de la fonction de forme " << i <<" au point (" << ref_v.x << "," << ref_v.y << ") : " << std::endl;
 		std::cout << evalgrad_shape_func.x << std::endl << evalgrad_shape_func.y << std::endl;
 		
 		return true; 
@@ -215,6 +218,8 @@ namespace FEM2A {
 		Ke.set_size( 3, 3 );
 				
 		assemble_elementary_matrix(element_map_triangle, fonction_forme, q, FEM2A::Simu::unit_fct, Ke ); 
+		std::cout << "Ke: " <<std::endl;
+		Ke.print();
 		return true;
 	}
 	
@@ -242,6 +247,11 @@ namespace FEM2A {
 		int t = 4;
 		SparseMatrix K(mesh.nb_vertices());		
 		local_to_global_matrix( mesh , t, Ke, K );
+		
+		// Print of global matrix K
+		std::cout << "K : " << std::endl;
+		K.print();
+		
 		return true;
 	}
 	
@@ -268,6 +278,7 @@ namespace FEM2A {
 		std::vector< double > Fe;	
 		assemble_elementary_vector(element_map_triangle, fonction_forme, q, FEM2A::Simu::unit_fct, Fe ); 
 		
+		std::cout << "Fe: " << std::endl;
 		for (int i = 0; i< Fe.size() ; i++)
 		{
 			std::cout << Fe[i] << std::endl;
@@ -302,6 +313,8 @@ namespace FEM2A {
 		int i = 4;
 		std::vector< double > F( q.nb_points()); /*taille de F est nb de points d'intégration*/	
 		local_to_global_vector(mesh, border, i, Fe, F );
+		
+		
 		return true;
 	}
 	
