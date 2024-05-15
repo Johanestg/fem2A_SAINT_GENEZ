@@ -56,7 +56,7 @@ void run_tests()
     if (t_jacobian_matrix_elementmapping) Tests::test_jacobian_matrix_elementmapping();
     if (t_constructeur_shapefunction) Tests::test_constructeur_shapefunction(2,1);
     if (t_nbfunction_shapefunction) Tests::test_nbfunction_shapefunction(2,1);
-    if (t_evaluate_shapefunction) Tests::test_evaluate_shapefunction(1, 1, 0);
+    if (t_evaluate_shapefunction) Tests::test_evaluate_shapefunction(2, 1, 0);
     if (t_evaluategrad_shapefunction) Tests::test_evaluategrad_shapefunction(2, 1, 0);
     if (t_assemble_elementary_matrix) Tests::test_assemble_elementary_matrix();
     if (t_local_to_global_matrix) Tests::test_local_to_global_matrix();
@@ -70,8 +70,8 @@ void run_tests()
 void run_simu()
 {
 
-    const bool simu_pure_dirichlet = false;
-    const bool simu_dirichlet = true;
+    const bool simu_pure_dirichlet = true;
+    const bool simu_dirichlet_terme_source = false;
     const bool simu_dirichlet_sinus_bump = false;
 
 
